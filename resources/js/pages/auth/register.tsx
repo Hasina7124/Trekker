@@ -1,6 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState } from 'react';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
@@ -8,10 +8,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css'
+
 
 type RegisterForm = {
     name: string;
     email: string;
+    phone: string;
+    adress: string;
     password: string;
     password_confirmation: string;
 };
@@ -20,6 +25,8 @@ export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         name: '',
         email: '',
+        phone: '',
+        adress: '',
         password: '',
         password_confirmation: '',
     });
@@ -68,6 +75,49 @@ export default function Register() {
                         />
                         <InputError message={errors.email} />
                     </div>
+                    
+                    <div className='grid gap-2'>
+                        <Label htmlFor='phone'>Phone</Label>
+                        {/* <Input
+                            id='phone'
+                            type='text'
+                            required
+                            autoFocus
+                            tabIndex={3}
+                            autoComplete='phone'
+                            value={data.phone}
+                            onChange={(e) => setData('phone', e.target.value)}
+                            disabled={processing}
+                            placeholder='+261 34 81 404 98'
+                        /> */}
+                        <PhoneInput
+                            id='phone'
+                            type='text'
+                            required
+                            autoFocus
+                            autoComplete='phone'
+                            placeholder="Enter phone number"
+                            value={data.phone}
+                            onChange={(value) => setData('phone', value || '')}
+                            disabled={processing}
+                        />
+                    </div>
+
+                    <div className='grid gap-2'>
+                        <Label htmlFor='adress'>Adress</Label>
+                        <Input
+                            id='adress'
+                            type='text'
+                            required
+                            autoFocus
+                            tabIndex={4}
+                            autoComplete='adress'
+                            value={data.adress}
+                            onChange={(e) => setData('adress', e.target.value)}
+                            disabled={processing}
+                            placeholder='Ambohimamory AB 306'
+                        />
+                    </div>
 
                     <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
@@ -75,7 +125,7 @@ export default function Register() {
                             id="password"
                             type="password"
                             required
-                            tabIndex={3}
+                            tabIndex={5}
                             autoComplete="new-password"
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
@@ -91,7 +141,7 @@ export default function Register() {
                             id="password_confirmation"
                             type="password"
                             required
-                            tabIndex={4}
+                            tabIndex={6}
                             autoComplete="new-password"
                             value={data.password_confirmation}
                             onChange={(e) => setData('password_confirmation', e.target.value)}
